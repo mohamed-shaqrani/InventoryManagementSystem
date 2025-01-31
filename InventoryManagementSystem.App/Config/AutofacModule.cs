@@ -13,6 +13,7 @@ public class AutofacModule : Module
                .As<IUnitOfWork>()
                .InstancePerLifetimeScope();
 
+
         builder.RegisterGeneric(typeof(BaseEndpointParam<>))
                 .AsSelf()
                 .InstancePerLifetimeScope();
@@ -26,6 +27,8 @@ public class AutofacModule : Module
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
 
         builder.RegisterAssemblyTypes(typeof(AddProductHandler).Assembly);
+
+
         builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
 

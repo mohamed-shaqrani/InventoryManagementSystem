@@ -18,7 +18,9 @@ public enum ErrorCode
     UserPhoneExist = 203,
     InvalidCode = 204,
     // Product
-    ProductExists = 200,
+    ProductExists = 300,
+    ProductDoesNotExist = 301,
+
 
 
 }

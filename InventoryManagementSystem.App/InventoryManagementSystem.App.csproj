@@ -7,14 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Authentication\ForgetPassword\Queries\**" />
-    <Content Remove="Features\Authentication\ForgetPassword\Queries\**" />
-    <EmbeddedResource Remove="Features\Authentication\ForgetPassword\Queries\**" />
-    <None Remove="Features\Authentication\ForgetPassword\Queries\**" />
+    <Compile Remove="Features\Auth\ForgetPassword\Queries\**" />
+    <Content Remove="Features\Auth\ForgetPassword\Queries\**" />
+    <EmbeddedResource Remove="Features\Auth\ForgetPassword\Queries\**" />
+    <None Remove="Features\Auth\ForgetPassword\Queries\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Features\Authentication\ForgetPassword\BaseEndpoint.cs" />
+    <Compile Remove="Features\Auth\ForgetPassword\BaseEndpoint.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -42,7 +42,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\Products\GetProduct\" />
     <Folder Include="wwwroot\Assets\Images\users\" />
   </ItemGroup>
 
