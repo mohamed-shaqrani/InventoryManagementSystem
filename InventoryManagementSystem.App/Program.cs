@@ -38,6 +38,7 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
 builder.Services.AddCompressionServices();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
+
 builder.Services.AddAutoMapper(typeof(UserProfile).Assembly);
 
 builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailSettings"));

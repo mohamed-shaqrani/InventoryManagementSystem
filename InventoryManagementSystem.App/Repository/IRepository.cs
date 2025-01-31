@@ -24,6 +24,5 @@ public interface IRepository<TEntity> where TEntity : BaseEntity
     public IQueryable<TEntity> GetAllWithInclude(Func<IQueryable<TEntity>, IQueryable<TEntity>> Expr);
     Task<bool> DoesEntityExistAsync(int id);
     Task<bool> AnyAsync(Expression<Func<TEntity, bool>> expression);
-
-    //Task SaveChangesAsync();
+    Task<int> SaveChangesAsync();
 }

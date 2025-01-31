@@ -6,22 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace InventoryManagementSystem.App.Migrations
 {
     /// <inheritdoc />
-    public partial class AddTempAuthTable : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "TempAuthCodes",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<int>(type: "int", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ExpiresOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
-                    UsedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsAuthenticated = table.Column<bool>(type: "bit", nullable: false),
+                    PasswordResetCodeExpiration = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    PasswordResetCode = table.Column<string>(type: "nvarchar(6)", maxLength: 6, nullable: true),
                     CreatedBy = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedBy = table.Column<int>(type: "int", nullable: true),
@@ -32,7 +36,7 @@ namespace InventoryManagementSystem.App.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TempAuthCodes", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
         }
 
@@ -40,7 +44,7 @@ namespace InventoryManagementSystem.App.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "TempAuthCodes");
+                name: "Users");
         }
     }
 }

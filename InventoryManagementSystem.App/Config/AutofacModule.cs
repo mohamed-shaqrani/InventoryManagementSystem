@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentValidation;
 using InventoryManagementSystem.App.Features.Common;
+using InventoryManagementSystem.App.Features.Products.AddProduct.Command;
 using InventoryManagementSystem.App.Repository;
 
 namespace InventoryManagementSystem.App.Config;
@@ -24,6 +25,8 @@ public class AutofacModule : Module
                 .Where(a => a.Name.EndsWith("Service"))
                 .AsImplementedInterfaces().InstancePerLifetimeScope();
 
+        builder.RegisterAssemblyTypes(typeof(AddProductHandler).Assembly);
+        builder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
 
 
     }

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using InventoryManagementSystem.App.Data;
+﻿using InventoryManagementSystem.App.Data;
 using InventoryManagementSystem.App.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq.Expressions;
 
 namespace InventoryManagementSystem.App.Repository;
@@ -121,7 +121,10 @@ public class Repository<TEntity> : IRepository<TEntity> where TEntity : BaseEnti
     {
         return await _dbSet.AnyAsync(expression);
     }
-
+    public async Task<int> SaveChangesAsync()
+    {
+        return await _appDbContext.SaveChangesAsync();
+    }
     public void UpdateFullEntity(IEnumerable<TEntity> entities)
     {
         _dbSet.UpdateRange(entities);

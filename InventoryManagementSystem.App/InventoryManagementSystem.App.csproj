@@ -42,6 +42,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Features\Products\GetProduct\" />
     <Folder Include="wwwroot\Assets\Images\users\" />
   </ItemGroup>
 
