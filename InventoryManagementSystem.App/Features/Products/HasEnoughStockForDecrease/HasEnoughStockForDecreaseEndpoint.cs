@@ -5,12 +5,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
 
-[Route("api/product/has-enough-stock-Decrease")]
+[Route("api/product/has-enough-stock-decrease")]
 public class HasEnoughStockForDecreaseEndpoint(BaseEndpointParam<HasEnoughStockForDecreaseRequestViewModel> param)
     : BaseEndpoint<HasEnoughStockForDecreaseRequestViewModel, bool>(param)
 {
     [HttpGet("{id}/{quantity}")]
-    public async Task<EndpointResponse<bool>> GetSingleProduct([FromRoute] int id, [FromRoute] int quantity)
+    public async Task<EndpointResponse<bool>> HasEnoughStockForDecrease([FromRoute] int id, [FromRoute] int quantity)
     {
         var param = new HasEnoughStockForDecreaseRequestViewModel(id, quantity);
         var validateResult = ValidateRequest(param);
