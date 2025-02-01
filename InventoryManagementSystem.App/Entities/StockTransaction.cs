@@ -8,7 +8,9 @@ public class StockTransaction : BaseEntity
     public Warehouse Warehouse { get; set; }
     public int UserId { get; set; }
     public User User { get; set; }
+    public int Quantity { get; set; }
 
-    public ICollection<StockTransactionDetails> StockTransactionDetails { get; set; } = [];
+    public int ProductId { get; set; }
+    public Product Product { get; set; }
 
 }

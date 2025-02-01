@@ -189,6 +189,12 @@ namespace InventoryManagementSystem.App.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Quantity")
+                        .HasColumnType("int");
+
                     b.Property<int>("TransactionType")
                         .HasColumnType("int");
 
@@ -206,58 +212,13 @@ namespace InventoryManagementSystem.App.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ProductId");
+
                     b.HasIndex("UserId");
 
                     b.HasIndex("WarehouseId");
 
                     b.ToTable("StockTransactions");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.App.Entities.StockTransactionDetails", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StockTransactionId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("UpdatedBy")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("StockTransactionId");
-
-                    b.ToTable("StockTransactionDetails");
                 });
 
             modelBuilder.Entity("InventoryManagementSystem.App.Entities.User", b =>
@@ -389,6 +350,12 @@ namespace InventoryManagementSystem.App.Migrations
 
             modelBuilder.Entity("InventoryManagementSystem.App.Entities.StockTransaction", b =>
                 {
+                    b.HasOne("InventoryManagementSystem.App.Entities.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("InventoryManagementSystem.App.Entities.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
@@ -401,34 +368,16 @@ namespace InventoryManagementSystem.App.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Product");
+
                     b.Navigation("User");
 
                     b.Navigation("Warehouse");
                 });
 
-            modelBuilder.Entity("InventoryManagementSystem.App.Entities.StockTransactionDetails", b =>
-                {
-                    b.HasOne("InventoryManagementSystem.App.Entities.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("InventoryManagementSystem.App.Entities.StockTransaction", null)
-                        .WithMany("StockTransactionDetails")
-                        .HasForeignKey("StockTransactionId");
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("InventoryManagementSystem.App.Entities.Category", b =>
                 {
                     b.Navigation("Products");
-                });
-
-            modelBuilder.Entity("InventoryManagementSystem.App.Entities.StockTransaction", b =>
-                {
-                    b.Navigation("StockTransactionDetails");
                 });
 #pragma warning restore 612, 618
         }

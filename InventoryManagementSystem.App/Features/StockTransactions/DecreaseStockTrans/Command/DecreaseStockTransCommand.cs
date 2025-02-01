@@ -5,18 +5,18 @@ using InventoryManagementSystem.App.Response;
 using InventoryManagementSystem.App.Response.RequestResult;
 using MediatR;
 
-namespace InventoryManagementSystem.App.Features.StockTransactions.AddStockTrans.Command;
+namespace InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans.Command;
 
-public record AddStockTransCommand(DateTime Date, StockTransactionType TransactionType, int UserId, int WarehouseId, int ProductId, int Quantity) : IRequest<RequestResult<bool>>;
-public class AddStockTransHandler : BaseRequestHandler<AddStockTransCommand, RequestResult<bool>>
+public record DecreaseStockTransCommand(DateTime Date, StockTransactionType TransactionType, int UserId, int WarehouseId, int ProductId, int Quantity) : IRequest<RequestResult<bool>>;
+public class DecreaseStockTransHandler : BaseRequestHandler<DecreaseStockTransCommand, RequestResult<bool>>
 {
     private readonly IRepository<StockTransaction> _stocTransRepo;
 
-    public AddStockTransHandler(BaseRequestHandlerParam param, IRepository<StockTransaction> stockRepository) : base(param)
+    public DecreaseStockTransHandler(BaseRequestHandlerParam param, IRepository<StockTransaction> stockRepository) : base(param)
     {
         _stocTransRepo = stockRepository;
     }
-    public override async Task<RequestResult<bool>> Handle(AddStockTransCommand request, CancellationToken cancellationToken)
+    public override async Task<RequestResult<bool>> Handle(DecreaseStockTransCommand request, CancellationToken cancellationToken)
     {
 
 

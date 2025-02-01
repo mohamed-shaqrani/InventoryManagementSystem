@@ -7,8 +7,7 @@ public class AppDbContext : DbContext
 
     public DbSet<User> Users { get; set; }
     public DbSet<Product> Products { get; set; }
-    public DbSet<StockTransaction> StockTransactions  { get; set; }
-    public DbSet<StockTransactionDetails> StockTransactionDetails { get; set; }
+    public DbSet<StockTransaction> StockTransactions { get; set; }
     public DbSet<RoleFeature> RoleFeatures { get; set; }
 
 

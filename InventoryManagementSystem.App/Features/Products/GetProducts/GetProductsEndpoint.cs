@@ -1,4 +1,5 @@
-﻿using InventoryManagementSystem.App.Features.Common;
+﻿using InventoryManagementSystem.App.Extensions;
+using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Products.GetProducts.Query;
 using InventoryManagementSystem.App.Helpers;
 using InventoryManagementSystem.App.Response.Endpint;
@@ -17,6 +18,7 @@ public class GetProductsEndpoint(BaseEndpointParam<ProductParams> param) : BaseE
             return EndpointResponse<PageList<GetProductsResponseViewModel>>.Failure(validateResult.ErrorCode, validateResult.Message);
 
         var res = await _mediator.Send(new GetProductsQuery(param));
+        Response.AddPaginationHeader(res.Data);
         return res.IsSuccess ? EndpointResponse<PageList<GetProductsResponseViewModel>>.Success(res.Data, res.Message)
                              : EndpointResponse<PageList<GetProductsResponseViewModel>>.Failure(res.ErrorCode, res.Message);
 

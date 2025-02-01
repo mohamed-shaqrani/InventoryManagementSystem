@@ -9,8 +9,8 @@ using MediatR;
 
 namespace InventoryManagementSystem.App.Features.Products.GetSingleProduct.Query;
 
-public record GetProductCommand(int Id) : IRequest<RequestResult<GetProductsResponseViewModel>>;
-public class GetProductHandler : BaseRequestHandler<GetProductCommand, RequestResult<GetProductsResponseViewModel>>
+public record GetSingleProductQuery(int Id) : IRequest<RequestResult<GetProductsResponseViewModel>>;
+public class GetProductHandler : BaseRequestHandler<GetSingleProductQuery, RequestResult<GetProductsResponseViewModel>>
 {
     private readonly IRepository<Product> _productRepository;
 
@@ -18,7 +18,7 @@ public class GetProductHandler : BaseRequestHandler<GetProductCommand, RequestRe
     {
         _productRepository = productRepository;
     }
-    public override async Task<RequestResult<GetProductsResponseViewModel>> Handle(GetProductCommand request, CancellationToken cancellationToken)
+    public override async Task<RequestResult<GetProductsResponseViewModel>> Handle(GetSingleProductQuery request, CancellationToken cancellationToken)
     {
         var singleProduct = await _productRepository.GetByIdAsync(request.Id);
 

@@ -20,7 +20,7 @@ public class GetProductEndpoint(BaseEndpointParam<GetProductRequestViewModel> pa
         if (!validateResult.IsSuccess)
             return validateResult;
 
-        var res = await _mediator.Send(new GetProductCommand(param.Id));
+        var res = await _mediator.Send(new GetSingleProductQuery(param.Id));
 
         return res.IsSuccess ? EndpointResponse<GetProductsResponseViewModel>.Success(res.Data, res.Message)
                              : EndpointResponse<GetProductsResponseViewModel>.Failure(res.ErrorCode, res.Message);

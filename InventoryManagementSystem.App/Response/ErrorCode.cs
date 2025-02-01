@@ -20,6 +20,7 @@ public enum ErrorCode
     // Product
     ProductExists = 300,
     ProductDoesNotExist = 301,
+    InsufficientProductStock = 302,
     //stock
     InsufficientStock = 400,
 
