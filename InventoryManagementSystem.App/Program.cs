@@ -19,7 +19,6 @@ var emailConfig = builder.Configuration
         .Get<EmailConfiguration>();
 
 
-
 builder.Services.AddSingleton(emailConfig);
 
 builder.Services.AddMediatR(AssemblyReference.Assembly);

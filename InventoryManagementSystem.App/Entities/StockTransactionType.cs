@@ -1,8 +1,8 @@
 ﻿namespace InventoryManagementSystem.App.Entities;
 
-public enum TransactionType
+public enum StockTransactionType
 {
-    Add,
-    Remove,
+    Increase = 1,
+    Decrease,
     Transfer
 }

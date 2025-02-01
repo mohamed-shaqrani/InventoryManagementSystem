@@ -4,6 +4,7 @@ using InventoryManagementSystem.App.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementSystem.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250131123513_UpdateEntitiesRelationships")]
+    partial class UpdateEntitiesRelationships
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -116,9 +119,14 @@ namespace InventoryManagementSystem.App.Migrations
                     b.Property<int?>("UpdatedBy")
                         .HasColumnType("int");
 
+                    b.Property<int?>("WarehouseId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("WarehouseId");
 
                     b.ToTable("Products");
                 });
@@ -384,6 +392,10 @@ namespace InventoryManagementSystem.App.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("InventoryManagementSystem.App.Entities.Warehouse", null)
+                        .WithMany("Products")
+                        .HasForeignKey("WarehouseId");
+
                     b.Navigation("Category");
                 });
 
@@ -429,6 +441,11 @@ namespace InventoryManagementSystem.App.Migrations
             modelBuilder.Entity("InventoryManagementSystem.App.Entities.StockTransaction", b =>
                 {
                     b.Navigation("StockTransactionDetails");
+                });
+
+            modelBuilder.Entity("InventoryManagementSystem.App.Entities.Warehouse", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
