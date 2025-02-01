@@ -1,8 +1,9 @@
 ﻿using FluentValidation;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
+using InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQPublisherService;
 using InventoryManagementSystem.App.Response;
 using InventoryManagementSystem.App.Response.Endpint;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.App.Features.Common;
 
@@ -11,11 +12,13 @@ public class BaseEndpoint<TRequest, TResponse> : ControllerBase
 {
     protected IValidator<TRequest> _validator;
     protected IMediator _mediator;
+    protected IMessagePublisher _rabbitMQPubService;
 
     public BaseEndpoint(BaseEndpointParam<TRequest> param)
     {
         _validator = param.Validator;
         _mediator = param.Mediator;
+        _rabbitMQPubService = param.MessagePublisher;
 
     }
     protected EndpointResponse<TResponse> ValidateRequest(TRequest request)

@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using FluentValidation;
 using InventoryManagementSystem.App.Features.Common;
+using InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQPublisherService;
 using InventoryManagementSystem.App.Features.Products.AddProduct.Command;
 using InventoryManagementSystem.App.Repository;
 
@@ -12,6 +13,11 @@ public class AutofacModule : Module
         builder.RegisterType<UnitOfWork>()
                .As<IUnitOfWork>()
                .InstancePerLifetimeScope();
+
+        builder.RegisterType<MessagePublisher>()
+             .As<IMessagePublisher>()
+             .InstancePerLifetimeScope();
+
 
 
         builder.RegisterGeneric(typeof(BaseEndpointParam<>))

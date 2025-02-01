@@ -30,10 +30,10 @@ public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<I
         if (IsQuantityBelowLowStock != null)
         {
             return RequestResult<bool>.Failure(ErrorCode.QuantityBelowLowStockWarning,
-                         $"Warning: product {IsQuantityBelowLowStock.Name} with Id {IsQuantityBelowLowStock.Id} is Below Low Stock");
+                         $"Warning: product {IsQuantityBelowLowStock.Name} with Id {IsQuantityBelowLowStock.Id} is Below Low Stock", true);
 
         }
 
-        return RequestResult<bool>.Success(true, "Success");
+        return RequestResult<bool>.Success(false, "Success");
     }
 }

@@ -7,10 +7,10 @@ public record RequestResult<T>(T Data, bool IsSuccess, string Message, ErrorCode
 
         return new RequestResult<T>(data, true, message, ErrorCode.None);
     }
-    public static RequestResult<T> Failure(ErrorCode errorCode, string message)
+    public static RequestResult<T> Failure(ErrorCode errorCode, string message, T Date = default)
     {
 
-        return new RequestResult<T>(default, false, message, errorCode);
+        return new RequestResult<T>(Date, false, message, errorCode);
     }
 }
 
