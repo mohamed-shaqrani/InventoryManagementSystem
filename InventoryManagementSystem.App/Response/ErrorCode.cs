@@ -21,6 +21,7 @@ public enum ErrorCode
     ProductExists = 300,
     ProductDoesNotExist = 301,
     InsufficientProductStock = 302,
+    QuantityBelowLowStockWarning = 303,
     //stock
     InsufficientStock = 400,
 

@@ -18,7 +18,7 @@ public class HasEnoughStockForDecreaseHandler : BaseRequestHandler<HasEnoughStoc
     }
     public override async Task<RequestResult<bool>> Handle(HasEnoughStockForDecreaseQuery request, CancellationToken cancellationToken)
     {
-        var hasEnoughStock = await _productRepository.AnyAsync(x => x.Id == request.Id && x.Quantity <= request.Quantity);
+        var hasEnoughStock = await _productRepository.AnyAsync(x => x.Id == request.Id && x.Quantity >= request.Quantity);
 
         if (!hasEnoughStock)
             return RequestResult<bool>.Failure(ErrorCode.InsufficientProductStock, "Insufficient Product Stock ");

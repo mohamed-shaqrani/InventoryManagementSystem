@@ -1,5 +1,8 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
+using InventoryManagementSystem.App.Features.Products.GetSingleProduct.Query;
+using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
 using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease.Query;
+using InventoryManagementSystem.App.Features.Products.ProductDecreaseOrch;
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans.Command;
 using InventoryManagementSystem.App.MappingProfiles;
 using InventoryManagementSystem.App.Response.Endpint;
@@ -18,12 +21,27 @@ public class DecreaseStockTransEndpoint(BaseEndpointParam<DecreaseStockTransRequ
 
         if (!validateResult.IsSuccess)
             return validateResult;
+        var orchViewModel = new ProductDecreaseOrchRequestViewModel (param.ProductId,param.Quantity);
+        var orchResult =await _mediator.Send(new ProductDecreaseOrchestrator(orchViewModel));
 
+        if (!orchResult.IsSuccess)
+        {
+            return  EndpointResponse<bool>.Failure(orchResult.ErrorCode, orchResult.Message);
+        }
         var command = param.Map<DecreaseStockTransCommand>();
 
         var res = await _mediator.Send(command);
-        return res.IsSuccess ? EndpointResponse<bool>.Success(res.Data, res.Message)
-                             : EndpointResponse<bool>.Failure(res.ErrorCode, res.Message);
+
+        if (res.IsSuccess)
+        {
+            var IsQuantityBelowLowStock = await _mediator.Send(new IsQuantityBelowLowStockThresholdQuery(param.ProductId, param.Quantity));
+            if (IsQuantityBelowLowStock.IsSuccess)
+            {
+                EndpointResponse<bool>.Success(res.Data, res.Message);
+            }
+            //to do send message  to whom that concern
+        }
+        return    EndpointResponse<bool>.Failure(res.ErrorCode, res.Message);
     }
 
 }

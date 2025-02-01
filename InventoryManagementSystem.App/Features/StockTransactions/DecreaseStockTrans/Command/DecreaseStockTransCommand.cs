@@ -23,7 +23,7 @@ public class DecreaseStockTransHandler : BaseRequestHandler<DecreaseStockTransCo
         var stockTrans = new StockTransaction
         {
             Date = request.Date,
-            TransactionType = request.TransactionType,
+            TransactionType = StockTransactionType.Decrease,
             UserId = request.UserId,
             WarehouseId = request.WarehouseId,
             ProductId = request.ProductId,
