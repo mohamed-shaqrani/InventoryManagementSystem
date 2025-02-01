@@ -15,6 +15,8 @@ public class MessagePublisher : IMessagePublisher
         _connection = factory.CreateConnectionAsync().Result;
         _channel = _connection.CreateChannelAsync().Result;
         _channel.ExchangeDeclareAsync("newExchange", ExchangeType.Fanout, durable: true);
+        _channel.QueueDeclareAsync("newQueue", durable: true, exclusive: false, autoDelete: false);
+
         _channel.QueueBindAsync("newQueue", "newExchange", "Test");
 
     }
@@ -23,5 +25,12 @@ public class MessagePublisher : IMessagePublisher
         var jsonMessage = JsonSerializer.Serialize(message);
         var body = Encoding.UTF8.GetBytes(jsonMessage);
         await _channel.BasicPublishAsync(exchange: "newExchange", routingKey: "Test", body: body);
+    }
+    public async ValueTask DisposeAsync()
+    {
+        if (_channel != null)
+            await _channel.CloseAsync();
+        if (_connection != null)
+            await _connection.CloseAsync();
     }
 }

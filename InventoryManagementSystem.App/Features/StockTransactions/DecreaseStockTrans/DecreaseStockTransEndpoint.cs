@@ -10,13 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans;
 
 [Route("api/stock-trans/decrease")]
-public class DecreaseStockTransEndpoint : BaseEndpoint<DecreaseStockTransRequestViewModel, bool>
+public class DecreaseStockTransEndpoint(BaseEndpointParam<DecreaseStockTransRequestViewModel> param) : BaseEndpoint<DecreaseStockTransRequestViewModel, bool>(param)
 {
-
-    public DecreaseStockTransEndpoint(BaseEndpointParam<DecreaseStockTransRequestViewModel> param) : base(param)
-    {
-    }
-
     [HttpPost]
     public async Task<EndpointResponse<bool>> DecreaseStockTrans([FromBody] DecreaseStockTransRequestViewModel param)
     {
@@ -39,16 +34,9 @@ public class DecreaseStockTransEndpoint : BaseEndpoint<DecreaseStockTransRequest
         if (res.IsSuccess)
         {
             var isQuantityBelowLowStock = await _mediator.Send(new IsQuantityBelowLowStockThresholdQuery(param.ProductId, param.Quantity));
-            if (isQuantityBelowLowStock.Data)
-            {
-                await _rabbitMQPubService.PublishMessage(res.Message); await _rabbitMQPubService.PublishMessage(res.Message);
-            }
-            else
-            {
-                return EndpointResponse<bool>.Success(res.Data, res.Message);
+            if (!isQuantityBelowLowStock.IsSuccess)
+                await _rabbitMQPubService.PublishMessage(isQuantityBelowLowStock.Message);
 
-            }
-            // TODO: Send message to whom it may concern
         }
 
         return EndpointResponse<bool>.Failure(res.ErrorCode, res.Message);

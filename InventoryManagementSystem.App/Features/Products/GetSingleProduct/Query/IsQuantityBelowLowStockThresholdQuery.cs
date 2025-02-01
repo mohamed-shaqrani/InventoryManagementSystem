@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace InventoryManagementSystem.App.Features.Products.GetSingleProduct.Query;
 
-public record IsQuantityBelowLowStockThresholdQuery(int Id, int Quantity) : IRequest<RequestResult<bool>>;
-public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<IsQuantityBelowLowStockThresholdQuery, RequestResult<bool>>
+public record IsQuantityBelowLowStockThresholdQuery(int Id, int Quantity) : IRequest<RequestResult<object>>;
+public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<IsQuantityBelowLowStockThresholdQuery, RequestResult<object>>
 {
     private readonly IRepository<Product> _productRepository;
 
@@ -17,7 +17,7 @@ public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<I
     {
         _productRepository = productRepository;
     }
-    public override async Task<RequestResult<bool>> Handle(IsQuantityBelowLowStockThresholdQuery request, CancellationToken cancellationToken)
+    public override async Task<RequestResult<object>> Handle(IsQuantityBelowLowStockThresholdQuery request, CancellationToken cancellationToken)
     {
         var IsQuantityBelowLowStock = await _productRepository.GetAll()
                                                               .Where(x => x.Id == request.Id && x.Quantity < request.Quantity)
@@ -26,14 +26,18 @@ public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<I
                                                                   x.Id,
                                                                   x.Name,
                                                               }).FirstOrDefaultAsync();
-
+        
         if (IsQuantityBelowLowStock != null)
         {
-            return RequestResult<bool>.Failure(ErrorCode.QuantityBelowLowStockWarning,
-                         $"Warning: product {IsQuantityBelowLowStock.Name} with Id {IsQuantityBelowLowStock.Id} is Below Low Stock", true);
+            var data = new
+            {
+                Message = $"Warning: product {IsQuantityBelowLowStock.Name} with Id {IsQuantityBelowLowStock.Id} is Below Low Stock",
+                Timestamp = DateTime.UtcNow
+            };
 
+            return RequestResult<object>.Failure(ErrorCode.QuantityBelowLowStockWarning, data.Message, data);
         }
 
-        return RequestResult<bool>.Success(false, "Success");
+        return RequestResult<object>.Success(false, "Success");
     }
 }

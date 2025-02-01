@@ -4,6 +4,7 @@ using AutoMapper;
 using InventoryManagementSystem.App.Config;
 using InventoryManagementSystem.App.Data;
 using InventoryManagementSystem.App.Extensions;
+using InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQConsumerService;
 using InventoryManagementSystem.App.Helpers;
 using InventoryManagementSystem.App.MappingProfiles;
 using InventoryManagementSystem.App.Middlewares;
@@ -18,6 +19,7 @@ var emailConfig = builder.Configuration
         .GetSection("EmailSettings")
         .Get<EmailConfiguration>();
 
+builder.Services.AddHostedService<MessageConsumer>();
 
 builder.Services.AddSingleton(emailConfig);
 
