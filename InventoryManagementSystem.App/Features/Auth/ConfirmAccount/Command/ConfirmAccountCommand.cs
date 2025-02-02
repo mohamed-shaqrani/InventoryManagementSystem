@@ -1,18 +1,18 @@
-﻿using MediatR;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using InventoryManagementSystem.App.Entities;
+﻿using InventoryManagementSystem.App.Entities;
 using InventoryManagementSystem.App.Extensions;
-using InventoryManagementSystem.App.Features.Authentication.Login;
+using InventoryManagementSystem.App.Features.Auth.Login;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Common.OTPService;
 using InventoryManagementSystem.App.Repository;
 using InventoryManagementSystem.App.Response.RequestResult;
+using MediatR;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ConfirmAccount.command
+namespace InventoryManagementSystem.App.Features.Auth.ConfirmAccount.Command
 {
     public record ConfirmAccountCommand(string code) : IRequest<RequestResult<AuthModel>>;
     public class ConfirmAccountHandler : BaseRequestHandler<ConfirmAccountCommand, RequestResult<AuthModel>>

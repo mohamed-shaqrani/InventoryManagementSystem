@@ -1,4 +1,4 @@
-﻿namespace InventoryManagementSystem.App.Features.Authentication.Login;
+﻿namespace InventoryManagementSystem.App.Features.Auth.Login;
 public class AuthModel
 {
     public string UserName { get; set; }

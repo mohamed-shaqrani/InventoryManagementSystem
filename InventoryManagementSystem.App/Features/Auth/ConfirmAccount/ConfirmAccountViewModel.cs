@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ConfirmAccount;
+
+namespace InventoryManagementSystem.App.Features.Auth.ConfirmAccount;
 
 public record ConfirmAccountViewModel(string code);
 

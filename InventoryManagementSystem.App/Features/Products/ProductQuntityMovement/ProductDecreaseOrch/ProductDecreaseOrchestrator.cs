@@ -1,11 +1,10 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
-using InventoryManagementSystem.App.Features.Products.DecreaseProductQuantity.Command;
-using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
-using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease.Query;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.DecreaseProductQuantity.Command;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.HasEnoughStockForDecrease.Query;
 using InventoryManagementSystem.App.Response.RequestResult;
 using MediatR;
 
-namespace InventoryManagementSystem.App.Features.Products.ProductDecreaseOrch;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.ProductDecreaseOrch;
 
 public record ProductDecreaseOrchestrator(ProductDecreaseOrchRequestViewModel request) : IRequest<RequestResult<bool>>;
 public class ProductDecreaseOrchestratorHandler : BaseRequestHandler<ProductDecreaseOrchestrator, RequestResult<bool>>

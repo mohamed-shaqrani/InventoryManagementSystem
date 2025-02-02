@@ -1,4 +1,5 @@
-﻿using InventoryManagementSystem.App.Features.Authentication.Login.Command;
+﻿using InventoryManagementSystem.App.Features.Auth.Login;
+using InventoryManagementSystem.App.Features.Auth.Login.Command;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Response.Endpint;
 using Microsoft.AspNetCore.Mvc;

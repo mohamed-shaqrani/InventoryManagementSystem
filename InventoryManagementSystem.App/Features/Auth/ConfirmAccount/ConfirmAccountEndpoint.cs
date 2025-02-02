@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.App.Features.Authentication.ConfirmAccount.command;
-using InventoryManagementSystem.App.Features.Authentication.Login;
+﻿using InventoryManagementSystem.App.Features.Auth.ConfirmAccount.Command;
+using InventoryManagementSystem.App.Features.Auth.Login;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Response.Endpint;
+using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ConfirmAccount
+namespace InventoryManagementSystem.App.Features.Auth.ConfirmAccount
 {
     [Route("api/auth/confirm-account")]
     public class ConfirmAccountEndpoint : BaseEndpoint<ConfirmAccountViewModel, EndpointResponse<string>>

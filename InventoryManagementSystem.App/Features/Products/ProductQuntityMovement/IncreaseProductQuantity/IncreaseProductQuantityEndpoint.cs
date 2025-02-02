@@ -1,9 +1,9 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
-using InventoryManagementSystem.App.Features.Products.IncreaseProductQuantity.Command;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.IncreaseProductQuantity.Command;
 using InventoryManagementSystem.App.Response.Endpint;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Products.IncreaseProductQuantity;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.IncreaseProductQuantity;
 
 [Route("api/product/increase-product-quantity")]
 public class IncreaseProductQuantityEndpoint(BaseEndpointParam<IncreaseProductQuantityRequestViewModel> param) : BaseEndpoint<IncreaseProductQuantityRequestViewModel, bool>(param)

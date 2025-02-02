@@ -1,9 +1,9 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
-using InventoryManagementSystem.App.Features.Products.DecreaseProductQuantity.Command;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.DecreaseProductQuantity.Command;
 using InventoryManagementSystem.App.Response.Endpint;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Products.DecreaseProductQuantity;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.DecreaseProductQuantity;
 
 [Route("api/product/decrease-product-quantity")]
 public class DecreaseProductQuantityEndpoint(BaseEndpointParam<DecreaseProductQuantityRequestViewModel> param) : BaseEndpoint<DecreaseProductQuantityRequestViewModel, bool>(param)

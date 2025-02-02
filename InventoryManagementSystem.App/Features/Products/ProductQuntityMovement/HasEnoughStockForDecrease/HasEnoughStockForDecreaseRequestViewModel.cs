@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.HasEnoughStockForDecrease;
 
 public record HasEnoughStockForDecreaseRequestViewModel(int Id, int Quantity);
 

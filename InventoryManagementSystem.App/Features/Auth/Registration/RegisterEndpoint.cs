@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.App.Features.Authentication.Registration.Command;
+﻿using InventoryManagementSystem.App.Features.Auth.Registration.Command;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Response.Endpint;
+using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Authentication.Registration
+namespace InventoryManagementSystem.App.Features.Auth.Registration
 {
     [Route("api/auth/register")]
     public class RegisterEndpoint : BaseEndpoint<RegisterViewModel, EndpointResponse<string>>

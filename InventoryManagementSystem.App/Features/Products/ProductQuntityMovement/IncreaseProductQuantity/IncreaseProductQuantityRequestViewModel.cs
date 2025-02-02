@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Products.IncreaseProductQuantity;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.IncreaseProductQuantity;
 
 public record IncreaseProductQuantityRequestViewModel(int Id, int Quantity);
 

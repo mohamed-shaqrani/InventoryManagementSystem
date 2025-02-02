@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Authentication.Login
+namespace InventoryManagementSystem.App.Features.Auth.Login
 {
     public record LoginViewModel(string Email, string Password);
 

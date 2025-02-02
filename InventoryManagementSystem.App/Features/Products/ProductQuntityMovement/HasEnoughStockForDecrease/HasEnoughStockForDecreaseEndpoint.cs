@@ -1,9 +1,9 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
-using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease.Query;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.HasEnoughStockForDecrease.Query;
 using InventoryManagementSystem.App.Response.Endpint;
 using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.HasEnoughStockForDecrease;
 
 [Route("api/product/has-enough-stock-decrease")]
 public class HasEnoughStockForDecreaseEndpoint(BaseEndpointParam<HasEnoughStockForDecreaseRequestViewModel> param)

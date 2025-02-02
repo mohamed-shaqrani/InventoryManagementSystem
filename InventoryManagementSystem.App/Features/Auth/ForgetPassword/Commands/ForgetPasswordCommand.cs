@@ -1,12 +1,12 @@
-﻿using MediatR;
-using InventoryManagementSystem.App.Entities;
+﻿using InventoryManagementSystem.App.Entities;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Common.EmailService;
 using InventoryManagementSystem.App.Features.Common.OTPService;
 using InventoryManagementSystem.App.Repository;
 using InventoryManagementSystem.App.Response.RequestResult;
+using MediatR;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ForgetPassword.Commands
+namespace InventoryManagementSystem.App.Features.Auth.ForgetPassword.Commands
 {
     public record ForgetPasswordCommand(string Email) : IRequest<RequestResult<bool>>;
 

@@ -5,7 +5,7 @@ using InventoryManagementSystem.App.Response;
 using InventoryManagementSystem.App.Response.RequestResult;
 using MediatR;
 
-namespace InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease.Query;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.HasEnoughStockForDecrease.Query;
 
 public record HasEnoughStockForDecreaseQuery(int Id, int Quantity) : IRequest<RequestResult<bool>>;
 public class HasEnoughStockForDecreaseHandler : BaseRequestHandler<HasEnoughStockForDecreaseQuery, RequestResult<bool>>

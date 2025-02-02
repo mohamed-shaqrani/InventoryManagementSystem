@@ -1,7 +1,4 @@
 
-
-
-﻿
 using Microsoft.Extensions.Caching.Memory;
 
 
@@ -21,9 +18,9 @@ namespace InventoryManagementSystem.App.Features.Common.OTPService
             return random.Next(100000, 999999).ToString();
         }
 
-        public void SaveOTP(UserTempData user,string  otp)
+        public void SaveOTP(UserTempData user, string otp)
         {
-            _memoryCache.Set(otp,user , TimeSpan.FromMinutes(10));
+            _memoryCache.Set(otp, user, TimeSpan.FromMinutes(10));
         }
 
         public UserTempData GetTempUser(string otp)
@@ -34,7 +31,7 @@ namespace InventoryManagementSystem.App.Features.Common.OTPService
 
         public string GetOTP(string email)
         {
-            var otp =_memoryCache.Get<string>(email);
+            var otp = _memoryCache.Get<string>(email);
 
             return otp;
         }
@@ -48,8 +45,8 @@ namespace InventoryManagementSystem.App.Features.Common.OTPService
         public Task<bool> VerifyOTPAsync(string email, string otp)
         {
 
-           var exist = _memoryCache.TryGetValue(otp, out UserTempData? value);
-            if (exist == true) 
+            var exist = _memoryCache.TryGetValue(otp, out UserTempData? value);
+            if (exist == true)
             {
                 return Task.FromResult(true);
             }
@@ -58,6 +55,6 @@ namespace InventoryManagementSystem.App.Features.Common.OTPService
     }
 }
 
-           
-           
-        
+
+
+

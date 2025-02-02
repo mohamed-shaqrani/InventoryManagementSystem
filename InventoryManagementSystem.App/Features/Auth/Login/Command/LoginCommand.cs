@@ -1,5 +1,4 @@
-﻿using HotelManagement.Service.PasswordHasherServices;
-using InventoryManagementSystem.App.Entities;
+﻿using InventoryManagementSystem.App.Entities;
 using InventoryManagementSystem.App.Extensions;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Repository;
@@ -13,7 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace InventoryManagementSystem.App.Features.Authentication.Login.Command
+namespace InventoryManagementSystem.App.Features.Auth.Login.Command
 {
     public record LoginCommand(string Email, string Password) : IRequest<RequestResult<AuthModel>>;
 

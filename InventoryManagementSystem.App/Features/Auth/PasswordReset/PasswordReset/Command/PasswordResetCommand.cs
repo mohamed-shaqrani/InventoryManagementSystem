@@ -1,13 +1,12 @@
-﻿using HotelManagement.Service.PasswordHasherServices;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using InventoryManagementSystem.App.Entities;
+﻿using InventoryManagementSystem.App.Entities;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Common.OTPService;
 using InventoryManagementSystem.App.Repository;
 using InventoryManagementSystem.App.Response.RequestResult;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace InventoryManagementSystem.App.Features.Authentication.PasswordReset.PasswordReset.Command;
+namespace InventoryManagementSystem.App.Features.Auth.PasswordReset.PasswordReset.Command;
 
 public record PasswordResetCommand(string Email, string NewPassword, string OTP) : IRequest<RequestResult<bool>>;
 

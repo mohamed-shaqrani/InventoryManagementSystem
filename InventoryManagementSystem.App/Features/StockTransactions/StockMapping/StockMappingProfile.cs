@@ -4,7 +4,7 @@ using InventoryManagementSystem.App.Features.StockTransactions.AddStockTrans.Com
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans;
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans.Command;
 
-namespace InventoryManagementSystem.App.Features.Products.ProductMapping;
+namespace InventoryManagementSystem.App.Features.StockTransactions.StockMapping;
 
 public class StockMappingProfile : Profile
 {

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Authentication.Registration;
+namespace InventoryManagementSystem.App.Features.Auth.Registration;
 
 public record RegisterViewModel(string Email, string Password, string Username, string phone, IFormFile imageFile);
 

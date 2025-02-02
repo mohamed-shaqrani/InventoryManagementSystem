@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace InventoryManagementSystem.App.Features.Authentication.PasswordReset;
+namespace InventoryManagementSystem.App.Features.Auth.PasswordReset;
 
 public record PasswordResetViewModel(string Email, string NewPassword, string OTP);
 

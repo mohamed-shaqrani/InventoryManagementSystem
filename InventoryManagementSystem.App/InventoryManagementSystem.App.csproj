@@ -46,8 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\StockTransactions\DecreaseStockTrans\Query\" />
-    <Folder Include="Features\StockTransactions\AddStockTrans\Query\" />
     <Folder Include="wwwroot\Assets\Images\users\" />
   </ItemGroup>
 

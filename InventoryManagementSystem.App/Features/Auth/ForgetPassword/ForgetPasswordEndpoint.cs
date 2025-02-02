@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.App.Features.Authentication.ForgetPassword.Commands;
+﻿using InventoryManagementSystem.App.Features.Auth.ForgetPassword.Commands;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Response.Endpint;
+using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ForgetPassword
+namespace InventoryManagementSystem.App.Features.Auth.ForgetPassword
 {
     [Route("api/auth/forget-password/")]
     public class ForgetPasswordEndpoint : BaseEndpoint<ForgetPassRequestViewModel, string>

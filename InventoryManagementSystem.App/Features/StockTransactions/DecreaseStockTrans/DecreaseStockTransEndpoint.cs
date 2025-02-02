@@ -1,7 +1,6 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Products.GetSingleProduct.Query;
-using InventoryManagementSystem.App.Features.Products.HasEnoughStockForDecrease;
-using InventoryManagementSystem.App.Features.Products.ProductDecreaseOrch;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.ProductDecreaseOrch;
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans.Command;
 using InventoryManagementSystem.App.MappingProfiles;
 using InventoryManagementSystem.App.Response.Endpint;

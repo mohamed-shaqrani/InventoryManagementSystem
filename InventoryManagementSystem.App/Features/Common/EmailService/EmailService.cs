@@ -1,11 +1,10 @@
-﻿using MailKit.Security;
+﻿using InventoryManagementSystem.App.Config;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
-using InventoryManagementSystem.App.Config;
-using InventoryManagementSystem.App.Features.Common.EmailService;
 
 
-namespace InventoryManagementSystem.App.Features.Common.EmailServices
+namespace InventoryManagementSystem.App.Features.Common.EmailService
 {
     public class EmailService : IEmailServices
     {

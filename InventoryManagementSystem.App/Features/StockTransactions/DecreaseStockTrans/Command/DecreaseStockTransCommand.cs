@@ -10,11 +10,11 @@ namespace InventoryManagementSystem.App.Features.StockTransactions.DecreaseStock
 public record DecreaseStockTransCommand(DateTime Date, StockTransactionType TransactionType, int UserId, int WarehouseId, int ProductId, int Quantity) : IRequest<RequestResult<bool>>;
 public class DecreaseStockTransHandler : BaseRequestHandler<DecreaseStockTransCommand, RequestResult<bool>>
 {
-    private readonly IRepository<StockTransaction> _stocTransRepo;
+    private readonly IRepository<StockTransaction> _stockTransRepo;
 
     public DecreaseStockTransHandler(BaseRequestHandlerParam param, IRepository<StockTransaction> stockRepository) : base(param)
     {
-        _stocTransRepo = stockRepository;
+        _stockTransRepo = stockRepository;
     }
     public override async Task<RequestResult<bool>> Handle(DecreaseStockTransCommand request, CancellationToken cancellationToken)
     {
@@ -30,8 +30,8 @@ public class DecreaseStockTransHandler : BaseRequestHandler<DecreaseStockTransCo
             Quantity = request.Quantity
         };
 
-        await _stocTransRepo.AddAsync(stockTrans);
-        var res = await _stocTransRepo.SaveChangesAsync();
+        await _stockTransRepo.AddAsync(stockTrans);
+        var res = await _stockTransRepo.SaveChangesAsync();
 
         return res > 0 ? RequestResult<bool>.Success(true, "Success")
                        : RequestResult<bool>.Failure(ErrorCode.DataBaseError, "Failed to save to database");

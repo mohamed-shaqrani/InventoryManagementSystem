@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using InventoryManagementSystem.App.Features.Authentication.PasswordReset;
-using InventoryManagementSystem.App.Features.Authentication.PasswordReset.PasswordReset.Command;
+﻿using InventoryManagementSystem.App.Features.Auth.PasswordReset.PasswordReset.Command;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Response.Endpint;
+using Microsoft.AspNetCore.Mvc;
 
-namespace InventoryManagementSystem.App.Features.Authentication.ResetPassword;
+namespace InventoryManagementSystem.App.Features.Auth.PasswordReset;
 
 [Route("api/auth/reset-password")]
 public class PasswordResetEndpoint : BaseEndpoint<PasswordResetViewModel, bool>

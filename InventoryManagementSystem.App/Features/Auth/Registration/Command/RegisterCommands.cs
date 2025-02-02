@@ -1,15 +1,14 @@
-﻿using HotelManagement.Service.PasswordHasherServices;
-using MediatR;
-using InventoryManagementSystem.App.Entities;
-using InventoryManagementSystem.App.Features.Authentication.Login;
+﻿using InventoryManagementSystem.App.Entities;
+using InventoryManagementSystem.App.Features.Auth.Login;
 using InventoryManagementSystem.App.Features.Common;
 using InventoryManagementSystem.App.Features.Common.EmailService;
 using InventoryManagementSystem.App.Features.Common.OTPService;
 using InventoryManagementSystem.App.ImageService;
 using InventoryManagementSystem.App.Repository;
 using InventoryManagementSystem.App.Response.RequestResult;
+using MediatR;
 
-namespace InventoryManagementSystem.App.Features.Authentication.Registration.Command
+namespace InventoryManagementSystem.App.Features.Auth.Registration.Command
 {
     public record RegisterCommand(string username, string email, string password, string phone, IFormFile imageFile) : IRequest<RequestResult<string>>;
     public class RegisterHandler : BaseRequestHandler<RegisterCommand, RequestResult<string>>

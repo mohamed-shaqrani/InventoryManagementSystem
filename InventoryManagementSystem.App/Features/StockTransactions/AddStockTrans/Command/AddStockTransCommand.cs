@@ -36,7 +36,7 @@ public class AddStockTransHandler : BaseRequestHandler<AddStockTransCommand, Req
         if (res > 0)
         {
             var count = _stocTransRepo.GetAll().Count();
-            //depends on the Busness we can modify this 
+            //depends on the Business we can modify this 
             if (count > 1)
             {
                 BackgroundJob.Enqueue<StockTransactionBackgroundJobs>(x => x.ArchiveStockTransactionsAsync());

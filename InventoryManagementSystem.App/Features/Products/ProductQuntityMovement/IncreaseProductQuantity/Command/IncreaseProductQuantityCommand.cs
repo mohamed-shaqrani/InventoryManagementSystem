@@ -5,7 +5,7 @@ using InventoryManagementSystem.App.Response;
 using InventoryManagementSystem.App.Response.RequestResult;
 using MediatR;
 
-namespace InventoryManagementSystem.App.Features.Products.IncreaseProductQuantity.Command;
+namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.IncreaseProductQuantity.Command;
 
 public record IncreaseProductQuantityCommand(int Id, int Quantity) : IRequest<RequestResult<bool>>;
 public class IncreaseProductQuantityHandler : BaseRequestHandler<IncreaseProductQuantityCommand, RequestResult<bool>>
@@ -19,7 +19,7 @@ public class IncreaseProductQuantityHandler : BaseRequestHandler<IncreaseProduct
     public override async Task<RequestResult<bool>> Handle(IncreaseProductQuantityCommand request, CancellationToken cancellationToken)
     {
 
-        var currentQuantity = _productRepository.GetAll().Where(a=>a.Id ==request.Id).Select(a=>a.Quantity).First();
+        var currentQuantity = _productRepository.GetAll().Where(a => a.Id == request.Id).Select(a => a.Quantity).First();
         var newQuantity = currentQuantity + request.Quantity;
 
         var product = new Product
