@@ -77,7 +77,7 @@ If you have any questions or need further assistance, feel free to reach out:
 
 Mohamed Shaqrani
 
-Email: mohamed.shaqrani@example.com
+Email: mohamedshaqrani@gmail.com
 
 GitHub: mohamed-shaqrani
 Thank you for using the Inventory Management System! We hope it helps streamline your inventory processes. 🚀
