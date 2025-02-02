@@ -1,4 +1,5 @@
 ﻿using InventoryManagementSystem.App.Features.Common;
+using InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.IncreaseProductQuantity.Command;
 using InventoryManagementSystem.App.Features.StockTransactions.AddStockTrans.Command;
 using InventoryManagementSystem.App.MappingProfiles;
 using InventoryManagementSystem.App.Response.Endpint;
@@ -17,6 +18,9 @@ public class AddStockTransEndpoint(BaseEndpointParam<AddStockTransRequestViewMod
 
         if (!validateResult.IsSuccess)
             return validateResult;
+        var increaseProductQuanity = await _mediator.Send(new IncreaseProductQuantityCommand(param.ProductId, param.Quantity));
+        if (!increaseProductQuanity.IsSuccess)
+            return EndpointResponse<bool>.Failure(increaseProductQuanity.ErrorCode, increaseProductQuanity.Message);
         var command = param.Map<AddStockTransCommand>();
 
         var res = await _mediator.Send(command);
