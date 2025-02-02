@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace InventoryManagementSystem.App.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250201080553_InititalCreate")]
-    partial class InititalCreate
+    [Migration("20250202190727_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -188,6 +188,9 @@ namespace InventoryManagementSystem.App.Migrations
 
                     b.Property<int?>("DeletedBy")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsArchieved")
+                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

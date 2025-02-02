@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using InventoryManagementSystem.App.Features.StockTransactions.AddStockTrans;
+using InventoryManagementSystem.App.Features.StockTransactions.AddStockTrans.Command;
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans;
 using InventoryManagementSystem.App.Features.StockTransactions.DecreaseStockTrans.Command;
 
@@ -9,5 +11,7 @@ public class StockMappingProfile : Profile
     public StockMappingProfile()
     {
         CreateMap<DecreaseStockTransCommand, DecreaseStockTransRequestViewModel>().ReverseMap();
+        CreateMap<AddStockTransCommand, AddStockTransRequestViewModel>().ReverseMap();
+
     }
 }

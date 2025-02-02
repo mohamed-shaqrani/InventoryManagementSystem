@@ -11,7 +11,6 @@ public class StockTransProfile : Profile
         CreateMap<AddStockTransCommand, AddStockTransRequestViewModel>().ReverseMap();
 
 
-        CreateMap<StockTransDetailsViewModel, StockTransDetailsViewModel>().ReverseMap();
 
     }
 }

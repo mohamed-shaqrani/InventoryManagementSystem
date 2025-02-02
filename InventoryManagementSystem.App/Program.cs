@@ -1,6 +1,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using AutoMapper;
+using Hangfire;
 using InventoryManagementSystem.App.Config;
 using InventoryManagementSystem.App.Data;
 using InventoryManagementSystem.App.Extensions;
@@ -34,7 +35,17 @@ builder.Host.ConfigureContainer<ContainerBuilder>(container =>
     container.RegisterModule(new AutofacModule());
 });
 
+builder.Services.AddHangfire(opt =>
+{
+    opt.UseSqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"),
+        new Hangfire.SqlServer.SqlServerStorageOptions
+        {
+            QueuePollInterval = TimeSpan.FromSeconds(5),
+            CommandTimeout = TimeSpan.FromMinutes(1),
 
+        });
+});
+builder.Services.AddHangfireServer();
 builder.Services.AddCompressionServices();
 builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.Configure<JWT>(builder.Configuration.GetSection("JWT"));
@@ -55,6 +66,7 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+app.UseHangfireDashboard("/hangfire");
 app.UseAuthentication();
 app.UseHttpsRedirection();
 app.UseStaticFiles();

@@ -1,6 +1,6 @@
 ﻿namespace InventoryManagementSystem.App.Entities;
 
-public class StockTransaction : BaseEntity
+public class ArchievedStockTransaction
 {
     public DateTime Date { get; set; }
     public StockTransactionType TransactionType { get; set; }
@@ -12,6 +12,6 @@ public class StockTransaction : BaseEntity
 
     public int ProductId { get; set; }
     public Product Product { get; set; }
-    public bool IsArchieved { get; set; } = false;
-
+    public int FiscalYear { get; set; }
 }
+
