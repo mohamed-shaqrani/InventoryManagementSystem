@@ -8,10 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace InventoryManagementSystem.App.Features.StockTransactions.Reports.StockTransHistory;
 [Route("api/stock-trans-history/")]
-public class StockTransHistoryEndpoint(BaseEndpointParam<ProductParams> param) : BaseEndpoint<ProductParams, PageList<GetStockTransHistoryResponseViewModel>>(param)
+public class StockTransHistoryEndpoint(BaseEndpointParam<StockTransHistoryParam> param) : BaseEndpoint<StockTransHistoryParam, PageList<GetStockTransHistoryResponseViewModel>>(param)
 {
     [HttpGet]
-    public async Task<EndpointResponse<PageList<GetStockTransHistoryResponseViewModel>>> GetProjects([FromQuery] StockTransHistoryParam param)
+    public async Task<EndpointResponse<PageList<GetStockTransHistoryResponseViewModel>>> GetStockTransHistory([FromQuery] StockTransHistoryParam param)
     {
 
 
