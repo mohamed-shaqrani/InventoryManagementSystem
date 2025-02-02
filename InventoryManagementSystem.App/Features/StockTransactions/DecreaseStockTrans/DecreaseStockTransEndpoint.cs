@@ -35,7 +35,7 @@ public class DecreaseStockTransEndpoint(BaseEndpointParam<DecreaseStockTransRequ
         {
             var isQuantityBelowLowStock = await _mediator.Send(new IsQuantityBelowLowStockThresholdQuery(param.ProductId, param.Quantity));
             if (!isQuantityBelowLowStock.IsSuccess)
-                await _rabbitMQPubService.PublishMessage(isQuantityBelowLowStock.Message);
+                await _rabbitMQPubService.PublishMessage(isQuantityBelowLowStock.Data);
 
         }
 

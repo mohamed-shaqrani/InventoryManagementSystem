@@ -26,13 +26,13 @@ public class IsQuantityBelowLowStockThresholdQueryHandler : BaseRequestHandler<I
                                                                   x.Id,
                                                                   x.Name,
                                                               }).FirstOrDefaultAsync();
-        
+
         if (IsQuantityBelowLowStock != null)
         {
             var data = new
             {
                 Message = $"Warning: product {IsQuantityBelowLowStock.Name} with Id {IsQuantityBelowLowStock.Id} is Below Low Stock",
-                Timestamp = DateTime.UtcNow
+                DateAndTime = DateTime.UtcNow
             };
 
             return RequestResult<object>.Failure(ErrorCode.QuantityBelowLowStockWarning, data.Message, data);
