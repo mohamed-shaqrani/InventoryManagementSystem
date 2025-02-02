@@ -15,26 +15,35 @@ namespace InventoryManagementSystem.App.Features.Common.EmailService
             _emailConfig = emailConfig.Value;
         }
 
-        public void SendEmail(string to, string subject, string body)
+        public void SendEmail(string to, string subject, string body, bool isBodyHtml = false)
         {
             var emailMessage = new MimeMessage();
+
+            // Validate sender email address
             if (string.IsNullOrEmpty(_emailConfig.From))
             {
                 throw new InvalidOperationException("Sender email address is not configured.");
             }
+
             emailMessage.From.Add(new MailboxAddress("Support", _emailConfig.From));
-            emailMessage.To.Add(new MailboxAddress("reciver", to));
+            emailMessage.To.Add(new MailboxAddress("Receiver", to));
             emailMessage.Subject = subject;
 
-            var bodyBuilder = new BodyBuilder
+            var bodyBuilder = new BodyBuilder();
+
+            if (isBodyHtml)
             {
-                HtmlBody = body
-            };
+                bodyBuilder.HtmlBody = body;
+            }
+            else
+            {
+                bodyBuilder.TextBody = body;
+            }
+
             emailMessage.Body = bodyBuilder.ToMessageBody();
 
             Send(emailMessage);
         }
-
 
         private void Send(MimeMessage mailMessage)
         {

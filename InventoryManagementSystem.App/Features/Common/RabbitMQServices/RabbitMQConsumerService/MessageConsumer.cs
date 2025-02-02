@@ -1,8 +1,8 @@
 ﻿using InventoryManagementSystem.App.Features.Common.EmailService;
+using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Text.Json;
 
 namespace InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQConsumerService;
 
@@ -10,7 +10,7 @@ public class MessageConsumer : IHostedService
 {
     IConnection _connection;
     IChannel _channel;
-    IEmailServices _emailServices; 
+    IEmailServices _emailServices;
     public MessageConsumer(IEmailServices emailServices)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
@@ -20,7 +20,7 @@ public class MessageConsumer : IHostedService
 
 
     }
- 
+
     public async ValueTask DisposeAsync()
     {
         if (_channel != null)
@@ -39,11 +39,30 @@ public class MessageConsumer : IHostedService
     private async Task Consumer_RecieverAsync(object sender, BasicDeliverEventArgs @event)
     {
         var body = Encoding.UTF8.GetString(@event.Body.ToArray());
-        _emailServices.SendEmail("mohamedshaqrani@gmail.com", "Warning: Low Product Quanity", body);
-       await _channel.BasicAckAsync(@event.DeliveryTag,multiple:false);
-        //send mail
+        ConfigureMail(body);
+        await _channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
     }
+    private void ConfigureMail(string body)
+    {
+        var data = JsonConvert.DeserializeObject<dynamic>(body);
 
+        string message = data.Message;
+        DateTime dateAndTime = data.DateAndTime;
+        string emailBody = $@"
+    <html>
+    <body>
+        <h2>Low Stock Alert</h2>
+        <p><strong>Message:</strong> {message}</p>
+        <p><strong>Date and Time:</strong> {dateAndTime.ToString("yyyy-MM-dd HH:mm:ss")} (UTC)</p>
+        <br/>
+        <p>Please take necessary actions to replenish the stock.</p>
+        <br/>
+        <p>Best Regards,</p>
+        <p>Your Inventory Management System</p>
+    </body>
+    </html>";
+        _emailServices.SendEmail("mohamedshaqrani@gmail.com", "Warning: Low Product Quantity", emailBody, isBodyHtml: true);
+    }
     public async Task StopAsync(CancellationToken cancellationToken)
     {
         await _channel.CloseAsync();
