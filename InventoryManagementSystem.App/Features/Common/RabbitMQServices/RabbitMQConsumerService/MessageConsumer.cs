@@ -1,5 +1,6 @@
 ﻿using InventoryManagementSystem.App.Features.Common.EmailService;
 using InventoryManagementSystem.App.Helpers;
+using MediatR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
@@ -14,12 +15,15 @@ public class MessageConsumer : IHostedService
     IConnection _connection;
     IChannel _channel;
     IEmailServices _emailServices;
-    public MessageConsumer(IEmailServices emailServices)
+    IMediator _mediator;
+
+    public MessageConsumer(IEmailServices emailServices, IMediator mediator)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
         _connection = factory.CreateConnectionAsync().Result;
         _channel = _connection.CreateChannelAsync().Result;
         _emailServices = emailServices;
+        _mediator = mediator;
 
 
     }
@@ -43,18 +47,18 @@ public class MessageConsumer : IHostedService
     {
         var body = Encoding.UTF8.GetString(@event.Body.ToArray());
         BasicMessage basicMessage = GetMessage(body);
-        Type type;
+        InvokeConsumer(basicMessage);
         ConfigureMail(body);
         await _channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
     }
-    private async Task InvokeConsumer(BasicMessage basicMessage)
+    private void InvokeConsumer(BasicMessage basicMessage)
     {
         string type = basicMessage.Type;
 
         type = type.Replace("Messag","Consumer");
         string nameSpace = "InventoryManagementSystem.App.Features.Common.ConsumeMessages";
         Type getType = Type.GetType($"{nameSpace}.{type},InventoryManagementSystem");
-        var conusmer =Activator.CreateInstance(getType);
+        var conusmer =Activator.CreateInstance(getType, _mediator);
         var method = getType.GetMethod("Consume");
           method.Invoke(conusmer, new object[] { basicMessage });
 
