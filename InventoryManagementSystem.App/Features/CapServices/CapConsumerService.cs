@@ -1,6 +1,6 @@
-﻿using DotNetCore.CAP;
+﻿using Autofac;
+using DotNetCore.CAP;
 using InventoryManagementSystem.App.Helpers;
-using MediatR;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -8,18 +8,23 @@ namespace InventoryManagementSystem.App.Features.CapServices;
 
 public class CapConsumerService : ICapSubscribe
 {
-    readonly IMediator _mediator;
-    public CapConsumerService(IMediator mediator)
+    private readonly ILifetimeScope _lifetimeScope;
+
+    public CapConsumerService(ILifetimeScope lifetimeScope)
     {
-        _mediator = mediator;
+        _lifetimeScope = lifetimeScope;
     }
     [CapSubscribe("decrease")]
     public async Task Consume(string message)
     {
-        var basicMessage = GetMessage(message);
-        InvokeConsumer(basicMessage);
+        using (var scope = _lifetimeScope.BeginLifetimeScope())
+        {
+            var basicMessage = GetMessage(message);
+            await InvokeConsumerAsync(scope, basicMessage);
+        }
+
     }
-    private void InvokeConsumer(BasicMessage basicMessage)
+    private async Task InvokeConsumerAsync(ILifetimeScope scope, BasicMessage basicMessage)
     {
         var typetes = basicMessage.Type;
         var typeName = basicMessage.Type.Replace("Msg", "Consumer");
@@ -30,12 +35,15 @@ public class CapConsumerService : ICapSubscribe
         if (consumerType == null)
             throw new InvalidOperationException($"Consumer type '{fullTypeName}' not found.");
 
-        var consumerInstance = Activator.CreateInstance(consumerType, _mediator);
+        // Resolve the consumer instance within the new scope
+        var consumerInstance = scope.Resolve(consumerType);
         var consumeMethod = consumerType.GetMethod("Consume");
 
-        consumeMethod?.Invoke(consumerInstance, new object[] { basicMessage });
+        if (consumeMethod != null)
+        {
+            await (Task)consumeMethod.Invoke(consumerInstance, new object[] { basicMessage });
+        }
     }
-
     private BasicMessage GetMessage(string body)
     {
         var jsonObject = JObject.Parse(body);

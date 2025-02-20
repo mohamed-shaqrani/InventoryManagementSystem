@@ -29,7 +29,7 @@ public class DecreaseStockTransEndpoint(BaseEndpointParam<DecreaseStockTransRequ
             };
             var message = JsonConvert.SerializeObject(decreseQuanityMsg);
 
-            await _capPublisher.PublishAsync("decrease", message);
+            _capPublisher.Publish("decrease", message);
             //await _capPublisher.PublishAsync("captest", "decreseQuanityMsg");// works fine
 
         }
