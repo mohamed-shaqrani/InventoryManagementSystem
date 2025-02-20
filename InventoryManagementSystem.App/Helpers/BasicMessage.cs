@@ -10,3 +10,13 @@ public class BasicMessage
     public DateTime Date { get; set; }
 
 }
+public class BasicCapMessage
+{
+    public string Message { get; set; }
+    public string Sender { get; set; }
+    public virtual string ClassType { get; set; }
+
+    public string Action { get; set; }
+    public DateTime Date { get; set; }
+
+}

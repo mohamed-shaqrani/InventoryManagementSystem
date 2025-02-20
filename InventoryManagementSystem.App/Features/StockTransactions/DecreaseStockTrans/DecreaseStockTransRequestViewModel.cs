@@ -9,10 +9,10 @@ public class DecreaseStockTransRequestViewModelValidator : AbstractValidator<Dec
 {
     public DecreaseStockTransRequestViewModelValidator()
     {
-        RuleFor(RuleFor => RuleFor.Date).NotEmpty();
-        RuleFor(RuleFor => RuleFor.TransactionType).IsInEnum();
-        RuleFor(RuleFor => RuleFor.UserId).GreaterThan(0);
-        RuleFor(RuleFor => RuleFor.WarehouseId).GreaterThan(0);
+        //RuleFor(RuleFor => RuleFor.Date).NotEmpty();
+        //RuleFor(RuleFor => RuleFor.TransactionType).IsInEnum();
+        //RuleFor(RuleFor => RuleFor.UserId).GreaterThan(0);
+        //RuleFor(RuleFor => RuleFor.WarehouseId).GreaterThan(0);
         RuleFor(RuleFor => RuleFor.Quantity).GreaterThan(0);
         RuleFor(RuleFor => RuleFor.ProductId).GreaterThan(0);
 

@@ -2,78 +2,83 @@
 using InventoryManagementSystem.App.Helpers;
 using MediatR;
 using Newtonsoft.Json;
+
+namespace InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQConsumerService;
+
 using Newtonsoft.Json.Linq;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Text.Json.Nodes;
 
-namespace InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQConsumerService;
-
-public class MessageConsumer : IHostedService
+public class MessageConsumer : IHostedService, IDisposable
 {
-    IConnection _connection;
-    IChannel _channel;
-    IEmailServices _emailServices;
-    IMediator _mediator;
+    private readonly IConnection _connection;
+    private readonly IModel _channel;
+    private readonly IEmailServices _emailServices;
+    private readonly IMediator _mediator;
 
     public MessageConsumer(IEmailServices emailServices, IMediator mediator)
     {
         var factory = new ConnectionFactory { HostName = "localhost" };
-        _connection = factory.CreateConnectionAsync().Result;
-        _channel = _connection.CreateChannelAsync().Result;
+        _connection = factory.CreateConnection(); // Synchronous for pre-7 versions
+        _channel = _connection.CreateModel();     // Synchronous model creation
+
         _emailServices = emailServices;
         _mediator = mediator;
 
-
+        // Queue declaration ensures the queue exists
+        _channel.QueueDeclare("newQueue", durable: true, exclusive: false, autoDelete: false, arguments: null);
     }
 
-    public async ValueTask DisposeAsync()
+    public Task StartAsync(CancellationToken cancellationToken)
     {
-        if (_channel != null)
-            await _channel.CloseAsync();
-        if (_connection != null)
-            await _connection.CloseAsync();
+        var consumer = new EventingBasicConsumer(_channel); // Synchronous consumer for pre-7 versions
+        consumer.Received += async (model, ea) =>
+        {
+            var body = Encoding.UTF8.GetString(ea.Body.ToArray());
+            var basicMessage = GetMessage(body);
+            InvokeConsumer(basicMessage);
+
+            // Acknowledge the message
+            _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+            await Task.CompletedTask; // Ensure async lambda compatibility
+        };
+
+        _channel.BasicConsume(queue: "newQueue", autoAck: false, consumer: consumer);
+        return Task.CompletedTask;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
-    {
-        var consumer = new AsyncEventingBasicConsumer(_channel);
-        consumer.ReceivedAsync += Consumer_RecieverAsync;
-        await _channel.BasicConsumeAsync("newQueue", autoAck: false, consumer);
-    }
-
-    private async Task Consumer_RecieverAsync(object sender, BasicDeliverEventArgs @event)
-    {
-        var body = Encoding.UTF8.GetString(@event.Body.ToArray());
-        BasicMessage basicMessage = GetMessage(body);
-        InvokeConsumer(basicMessage);
-        ConfigureMail(body);
-        await _channel.BasicAckAsync(@event.DeliveryTag, multiple: false);
-    }
     private void InvokeConsumer(BasicMessage basicMessage)
     {
-        string type = basicMessage.Type;
+        var typeName = basicMessage.Type.Replace("Message", "Consumer");
+        var nameSpace = "InventoryManagementSystem.App.Features.Common.ConsumeMessages";
+        var fullTypeName = $"{nameSpace}.{typeName}, InventoryManagementSystem.App";
 
-        type = type.Replace("Messag","Consumer");
-        string nameSpace = "InventoryManagementSystem.App.Features.Common.ConsumeMessages";
-        Type getType = Type.GetType($"{nameSpace}.{type},InventoryManagementSystem");
-        var conusmer =Activator.CreateInstance(getType, _mediator);
-        var method = getType.GetMethod("Consume");
-          method.Invoke(conusmer, new object[] { basicMessage });
+        var consumerType = Type.GetType(fullTypeName);
+        if (consumerType == null)
+            throw new InvalidOperationException($"Consumer type '{fullTypeName}' not found.");
 
+        var consumerInstance = Activator.CreateInstance(consumerType, _mediator);
+        var consumeMethod = consumerType.GetMethod("Consume");
 
-
+        consumeMethod?.Invoke(consumerInstance, new object[] { basicMessage });
     }
+
     private BasicMessage GetMessage(string body)
     {
         var jsonObject = JObject.Parse(body);
-        var typeName = jsonObject["Type"].ToString();
-        var nameSpace = "InventoryManagementSystem.App.Features.Common.ConsumeMessages";
-        Type type = Type.GetType($"{nameSpace}.{typeName},InventoryManagementSystem");
+        var typeName = jsonObject["Type"]?.ToString();
+        if (string.IsNullOrWhiteSpace(typeName))
+            throw new ArgumentException("Message type not found in the body.");
+
+        var nameSpace = "InventoryManagementSystem.App.Features.Messages";
+        var type = Type.GetType($"{nameSpace}.{typeName}, InventoryManagementSystem.App");
+
+        if (type == null)
+            throw new InvalidOperationException($"Message type '{typeName}' not found.");
+
         var basicMessage = JsonConvert.DeserializeObject(body, type) as BasicMessage;
-    
-        return basicMessage ?? throw new NotImplementedException();
+        return basicMessage ?? throw new InvalidOperationException("Deserialization failed.");
     }
 
     private void ConfigureMail(string body)
@@ -82,25 +87,34 @@ public class MessageConsumer : IHostedService
 
         string message = data.Message;
         DateTime dateAndTime = data.DateAndTime;
+
         string emailBody = $@"
-                <html>
+            <html>
                 <body>
                     <h2>Low Stock Alert</h2>
                     <p><strong>Message:</strong> {message}</p>
-                    <p><strong>Date and Time:</strong> {dateAndTime.ToString("yyyy-MM-dd HH:mm:ss")} (UTC)</p>
+                    <p><strong>Date and Time:</strong> {dateAndTime:yyyy-MM-dd HH:mm:ss} (UTC)</p>
                     <br/>
                     <p>Please take necessary actions to replenish the stock.</p>
                     <br/>
                     <p>Best Regards,</p>
                     <p>Your Inventory Management System</p>
                 </body>
-                </html>";
+            </html>";
+
         _emailServices.SendEmail("mohamedshaqrani@gmail.com", "Warning: Low Product Quantity", emailBody, isBodyHtml: true);
     }
-    public async Task StopAsync(CancellationToken cancellationToken)
-    {
-        await _channel.CloseAsync();
-        await _connection.CloseAsync();
 
+    public Task StopAsync(CancellationToken cancellationToken)
+    {
+        _channel?.Close();
+        _connection?.Close();
+        return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        _channel?.Dispose();
+        _connection?.Dispose();
     }
 }

@@ -6,7 +6,7 @@ using MediatR;
 
 namespace InventoryManagementSystem.App.Features.Products.ProductQuntityMovement.ProductDecreaseOrch;
 
-public record ProductDecreaseOrchestrator(ProductDecreaseOrchRequestViewModel request) : IRequest<RequestResult<bool>>;
+public record ProductDecreaseOrchestrator(int Id, int Quantity) : IRequest<RequestResult<bool>>;
 public class ProductDecreaseOrchestratorHandler : BaseRequestHandler<ProductDecreaseOrchestrator, RequestResult<bool>>
 {
     public ProductDecreaseOrchestratorHandler(BaseRequestHandlerParam param) : base(param)
@@ -15,9 +15,9 @@ public class ProductDecreaseOrchestratorHandler : BaseRequestHandler<ProductDecr
 
     public override async Task<RequestResult<bool>> Handle(ProductDecreaseOrchestrator request, CancellationToken cancellationToken)
     {
-        var hasEnoughProductStock = await _mediator.Send(new HasEnoughStockForDecreaseQuery(request.request.Id, request.request.Quantity));
+        var hasEnoughProductStock = await _mediator.Send(new HasEnoughStockForDecreaseQuery(request.Id, request.Quantity));
 
-        return hasEnoughProductStock.IsSuccess ? await _mediator.Send(new DecreaseProductQuantityCommand(request.request.Id, request.request.Quantity))
+        return hasEnoughProductStock.IsSuccess ? await _mediator.Send(new DecreaseProductQuantityCommand(request.Id, request.Quantity))
                                                : hasEnoughProductStock;
 
     }

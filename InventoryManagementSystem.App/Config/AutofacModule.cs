@@ -1,9 +1,12 @@
 ﻿using Autofac;
+using DotNetCore.CAP;
 using FluentValidation;
 using InventoryManagementSystem.App.Features.Common;
+using InventoryManagementSystem.App.Features.Common.ConsumeMessages;
 using InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQPublisherService;
 using InventoryManagementSystem.App.Features.Products.AddProduct.Command;
 using InventoryManagementSystem.App.Repository;
+using MediatR;
 
 namespace InventoryManagementSystem.App.Config;
 public class AutofacModule : Module
@@ -14,11 +17,21 @@ public class AutofacModule : Module
                .As<IUnitOfWork>()
                .InstancePerLifetimeScope();
 
+
+        builder.RegisterType<ProductDecreasOrchConsumer>()
+       .As<ICapSubscribe>()
+       .InstancePerDependency();
+        //builder.RegisterType<CapConsumerService>()
+        //         .As<ICapSubscribe>()
+        //          .InstancePerDependency();
+
         builder.RegisterType<MessagePublisher>()
              .As<IMessagePublisher>()
              .InstancePerLifetimeScope();
 
 
+
+        builder.RegisterType<Mediator>().As<IMediator>();
 
         builder.RegisterGeneric(typeof(BaseEndpointParam<>))
                 .AsSelf()

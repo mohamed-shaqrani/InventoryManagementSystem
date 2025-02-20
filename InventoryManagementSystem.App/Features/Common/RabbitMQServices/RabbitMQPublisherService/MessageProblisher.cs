@@ -1,36 +1,41 @@
-﻿using RabbitMQ.Client;
-using System.Text;
-using System.Text.Json;
+﻿namespace InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQPublisherService;
+using System.Threading.Tasks;
 
-namespace InventoryManagementSystem.App.Features.Common.RabbitMQServices.RabbitMQPublisherService;
-
-public class MessagePublisher : IMessagePublisher
+public class MessagePublisher : IMessagePublisher//, IDisposable
 {
-    IConnection _connection;
-    IChannel _channel;
+    //private readonly IConnection _connection;
+    //private readonly IModel _channel;
 
-    public MessagePublisher()
-    {
-        var factory = new ConnectionFactory { HostName = "localhost" };
-        _connection = factory.CreateConnectionAsync().Result;
-        _channel = _connection.CreateChannelAsync().Result;
-        _channel.ExchangeDeclareAsync("newExchange", ExchangeType.Fanout, durable: true);
-        _channel.QueueDeclareAsync("newQueue", durable: true, exclusive: false, autoDelete: false);
+    //public MessagePublisher()
+    //{
+    //    var factory = new ConnectionFactory { HostName = "localhost" };
+    //    _connection = factory.CreateConnection(); // Synchronous connection
+    //    _channel = _connection.CreateModel();     // Synchronous channel creation
 
-        _channel.QueueBindAsync("newQueue", "newExchange", "Test");
+    //    // Declare exchange and queue synchronously
+    //    _channel.ExchangeDeclare("newExchange", ExchangeType.Fanout, durable: true);
+    //    _channel.QueueDeclare("newQueue", durable: true, exclusive: false, autoDelete: false);
+    //    _channel.QueueBind("newQueue", "newExchange", "Test");
+    //}
 
-    }
-    public async Task PublishMessage<T>(T message)
+    //public Task PublishMessage<T>(T message)
+    //{
+    //    var jsonMessage = JsonSerializer.Serialize(message);
+    //    var body = Encoding.UTF8.GetBytes(jsonMessage);
+
+    //    // Use synchronous BasicPublish
+    //    _channel.BasicPublish(exchange: "newExchange", routingKey: "Test",default, body: body);
+
+    //    return Task.CompletedTask; // Keep method signature async-compatible
+    //}
+
+    //public void Dispose()
+    //{
+    //    _channel?.Close();
+    //    _connection?.Close();
+    //}
+    public Task PublishMessage<T>(T message)
     {
-        var jsonMessage = JsonSerializer.Serialize(message);
-        var body = Encoding.UTF8.GetBytes(jsonMessage);
-        await _channel.BasicPublishAsync(exchange: "newExchange", routingKey: "Test", body: body);
-    }
-    public async ValueTask DisposeAsync()
-    {
-        if (_channel != null)
-            await _channel.CloseAsync();
-        if (_connection != null)
-            await _connection.CloseAsync();
+        throw new NotImplementedException();
     }
 }
